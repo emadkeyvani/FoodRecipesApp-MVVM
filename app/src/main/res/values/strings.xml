@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FoodRecipesApp-MVVM</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recipes_fragment">Recipes</string>
+    <string name="favorite_fragment">Favorites</string>
+    <string name="joke_fragment">Joke</string>
+    <string name="no_internet_connection">No Internet Connection.</string>
+    <string name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="title">Lorem Ipsum</string>
+
+</resources>
