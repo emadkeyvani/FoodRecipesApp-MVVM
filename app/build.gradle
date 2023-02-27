@@ -22,10 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        Properties properties = new Properties()
 
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        buildConfigField "String" , "FOOD_API_KEY" ,"${properties.getProperty("FOOD_API_KEY")}"
     }
 
     buildTypes {
@@ -98,8 +95,6 @@ dependencies {
     //Image loading
     implementation 'io.coil-kt:coil:2.2.2'
 
-    // Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.todkars:shimmer-recyclerview:0.4.1'
+
 
 }
