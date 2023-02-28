@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentJokeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class JokeFragment : Fragment() {
     private var _binding: FragmentJokeBinding?=null
     private val binding get() = _binding!!

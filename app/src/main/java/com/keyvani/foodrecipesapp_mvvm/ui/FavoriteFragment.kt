@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentFavoriteBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
 
     private var _binding:FragmentFavoriteBinding?=null
