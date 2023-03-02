@@ -4,14 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.keyvani.foodrecipesapp_mvvm.db.RecipesEntity
 import com.keyvani.foodrecipesapp_mvvm.models.FoodRecipe
 import com.keyvani.foodrecipesapp_mvvm.repository.Repository
 import com.keyvani.foodrecipesapp_mvvm.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -21,6 +20,15 @@ class MainViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    /** ROOM DATABASE*/
+    val readRecipes : LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+
+    private fun insertRecipes(recipesEntity: RecipesEntity)=
+        viewModelScope.launch (Dispatchers.IO){
+            repository.local.insertRecipes(recipesEntity)
+        }
+
+    /** RETROFIT*/
     private val _recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
     val recipesResponse: LiveData<NetworkResult<FoodRecipe>>
         get() = _recipesResponse
@@ -35,6 +43,13 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.remote.getRecipes(queries)
                 _recipesResponse.value = handleFoodRecipesResponse(response)
+
+                //Insert to database
+                val foodRecipe = _recipesResponse.value!!.data
+                if(foodRecipe!=null){
+                    offlineCashRecipes(foodRecipe)
+                }
+
             } catch (_: Exception) {
                 _recipesResponse.value = NetworkResult.Error("Recipes not found")
 
@@ -44,6 +59,14 @@ class MainViewModel @Inject constructor(
         }
 
     }
+
+    //Insert to database
+    private fun offlineCashRecipes(foodRecipe: FoodRecipe) {
+        val recipesEntity = RecipesEntity(foodRecipe)
+        insertRecipes(recipesEntity)
+
+    }
+
 
     private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
 

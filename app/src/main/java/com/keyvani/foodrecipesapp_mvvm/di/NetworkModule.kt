@@ -4,7 +4,6 @@ import androidx.databinding.library.baseAdapters.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.keyvani.foodrecipesapp_mvvm.api.ApiServices
-import com.keyvani.foodrecipesapp_mvvm.utils.Constants.API_KEY
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.BASE_URL
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.NETWORK_TIMEOUT
 import dagger.Module
@@ -46,7 +45,6 @@ object NetworkModule {
                 .url
                 .newBuilder()
 
-                .addQueryParameter("apiKey", API_KEY)
                 .build()
 
             val request = chain.request()
