@@ -9,7 +9,11 @@
         android:id="@+id/recipesFragment"
         android:name="com.keyvani.foodrecipesapp_mvvm.ui.RecipesFragment"
         android:label="Recipes"
-        tools:layout="@layout/fragment_recipes" />
+        tools:layout="@layout/fragment_recipes" >
+        <action
+            android:id="@+id/action_recipesFragment_to_recipesBottomSheetFragment"
+            app:destination="@id/recipesBottomSheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.keyvani.foodrecipesapp_mvvm.ui.FavoriteFragment"
@@ -20,4 +24,13 @@
         android:name="com.keyvani.foodrecipesapp_mvvm.ui.JokeFragment"
         android:label="Joke"
         tools:layout="@layout/fragment_joke" />
+    <dialog
+        android:id="@+id/recipesBottomSheetFragment"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.RecipesBottomSheetFragment"
+        android:label="recipes_bottom_sheet"
+        tools:layout="@layout/recipes_bottom_sheet" >
+        <action
+            android:id="@+id/action_recipesBottomSheetFragment_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+    </dialog>
 </navigation>

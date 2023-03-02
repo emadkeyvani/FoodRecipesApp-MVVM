@@ -11,10 +11,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.keyvani.foodrecipesapp_mvvm.R
 import com.keyvani.foodrecipesapp_mvvm.adapters.RecipesAdapter
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentRecipesBinding
 import com.keyvani.foodrecipesapp_mvvm.utils.NetworkResult
+import com.keyvani.foodrecipesapp_mvvm.utils.observeOnce
 import com.keyvani.foodrecipesapp_mvvm.viewmodels.MainViewModel
 import com.keyvani.foodrecipesapp_mvvm.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,22 +28,18 @@ import javax.inject.Inject
 class RecipesFragment : Fragment() {
     private var _binding: FragmentRecipesBinding? = null
     private val binding get() = _binding!!
-
-    @Inject
-    lateinit var mAdapter: RecipesAdapter
-
     private val mainViewModel: MainViewModel by viewModels()
     private val recipesViewModel: RecipesViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    @Inject
+    lateinit var mAdapter: RecipesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecipesBinding.inflate(layoutInflater, container, false)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
         return binding.root
     }
 
@@ -48,11 +47,16 @@ class RecipesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         readDatabase()
+        binding.apply {
+            recipesFab.setOnClickListener {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheetFragment)
+            }
+        }
     }
 
     private fun readDatabase() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("RecipesFragment", "readDatabaseCalled! ")
                     mAdapter.setData(database[0].foodRecipe)
@@ -61,11 +65,6 @@ class RecipesFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setupRecyclerView() {
-        binding.rvRecipes.adapter = mAdapter
-        binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun requestApiData() {
@@ -91,7 +90,6 @@ class RecipesFragment : Fragment() {
         }
     }
 
-
     private fun loadDataFromCash() {
        lifecycleScope.launch {
            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
@@ -102,6 +100,11 @@ class RecipesFragment : Fragment() {
            }
        }
 
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvRecipes.adapter = mAdapter
+        binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
     }
     override fun onDestroy() {
         super.onDestroy()
