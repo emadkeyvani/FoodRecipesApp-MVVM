@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.keyvani.foodrecipesapp_mvvm.ui.RecipesFragment"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.fragments.RecipesFragment"
         android:label="Recipes"
         tools:layout="@layout/fragment_recipes" >
         <action
@@ -17,24 +17,36 @@
             android:name="backFromBottomSheet"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_recipesFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.keyvani.foodrecipesapp_mvvm.ui.FavoriteFragment"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.fragments.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/jokeFragment"
-        android:name="com.keyvani.foodrecipesapp_mvvm.ui.JokeFragment"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.fragments.JokeFragment"
         android:label="Joke"
         tools:layout="@layout/fragment_joke" />
     <dialog
         android:id="@+id/recipesBottomSheetFragment"
-        android:name="com.keyvani.foodrecipesapp_mvvm.ui.RecipesBottomSheetFragment"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.fragments.RecipesBottomSheetFragment"
         android:label="recipes_bottom_sheet"
         tools:layout="@layout/recipes_bottom_sheet" >
         <action
             android:id="@+id/action_recipesBottomSheetFragment_to_recipesFragment"
             app:destination="@id/recipesFragment" />
     </dialog>
+    <activity
+        android:id="@+id/detailsActivity"
+        android:name="com.keyvani.foodrecipesapp_mvvm.ui.DetailsActivity"
+        android:label="Details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="result"
+            app:argType="com.keyvani.foodrecipesapp_mvvm.responses.Result" />
+    </activity>
 </navigation>

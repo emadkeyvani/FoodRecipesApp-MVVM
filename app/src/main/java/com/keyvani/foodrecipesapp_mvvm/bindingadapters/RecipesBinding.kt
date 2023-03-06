@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.keyvani.foodrecipesapp_mvvm.db.RecipesEntity
-import com.keyvani.foodrecipesapp_mvvm.models.FoodRecipe
+import com.keyvani.foodrecipesapp_mvvm.responses.FoodRecipe
 import com.keyvani.foodrecipesapp_mvvm.utils.NetworkResult
 
 class RecipesBinding {

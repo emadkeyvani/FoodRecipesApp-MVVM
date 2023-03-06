@@ -2,7 +2,7 @@ package com.keyvani.foodrecipesapp_mvvm.db
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keyvani.foodrecipesapp_mvvm.models.FoodRecipe
+import com.keyvani.foodrecipesapp_mvvm.responses.FoodRecipe
 
 class RecipesTypeConverter {
 

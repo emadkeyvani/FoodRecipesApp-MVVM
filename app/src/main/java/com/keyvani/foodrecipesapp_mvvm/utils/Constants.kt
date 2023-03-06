@@ -15,6 +15,7 @@ object Constants {
     const val QUERY_DIET = "diet"
     const val QUERY_INFO = "addRecipeInformation"
     const val QUERY_INGREDIENTS = "fillIngredients"
+    const val QUERY_SEARCH = "query"
 
 
     const val DATABASE_NAME = "recipes_database"

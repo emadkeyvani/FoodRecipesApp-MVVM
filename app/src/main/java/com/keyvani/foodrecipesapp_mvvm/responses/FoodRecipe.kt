@@ -1,4 +1,4 @@
-package com.keyvani.foodrecipesapp_mvvm.models
+package com.keyvani.foodrecipesapp_mvvm.responses
 
 import com.google.gson.annotations.SerializedName
 

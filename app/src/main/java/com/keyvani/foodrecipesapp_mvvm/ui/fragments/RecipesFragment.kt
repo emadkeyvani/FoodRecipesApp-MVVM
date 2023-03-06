@@ -1,15 +1,15 @@
-package com.keyvani.foodrecipesapp_mvvm.ui
+package com.keyvani.foodrecipesapp_mvvm.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @AndroidEntryPoint
-class RecipesFragment : Fragment() {
+class RecipesFragment : Fragment() , SearchView.OnQueryTextListener{
 
     private var _binding: FragmentRecipesBinding? = null
     private val binding get() = _binding!!
@@ -71,6 +71,22 @@ class RecipesFragment : Fragment() {
                 }
         }
 
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.recipes_menu, menu)
+                val search = menu.findItem(R.id.menu_search)
+                val searchView = search.actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+                searchView?.setOnQueryTextListener(this@RecipesFragment)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+
         binding.apply {
             recipesFab.setOnClickListener {
                 if (recipesViewModel.networkStatus) {
@@ -95,6 +111,7 @@ class RecipesFragment : Fragment() {
         }
     }
 
+
     private fun requestApiData() {
         Log.d("RecipesFragment", "requestApiDataCalled! ")
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
@@ -106,7 +123,7 @@ class RecipesFragment : Fragment() {
                     response.data?.let { mAdapter.setData(it) }
                 }
                 is NetworkResult.Error -> {
-                    loadDataFromCash()
+                    loadDataFromCache()
                     Toast.makeText(requireContext(), response.message.toString(), Toast.LENGTH_SHORT).show()
 
                 }
@@ -118,7 +135,7 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    private fun loadDataFromCash() {
+    private fun loadDataFromCache() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
@@ -135,8 +152,49 @@ class RecipesFragment : Fragment() {
         binding.rvRecipes.layoutManager = LinearLayoutManager(requireContext())
     }
 
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+      if (query != null) {
+          searchApiData(query)
+      }
+      return true
+    }
+
+     override fun onQueryTextChange(p0: String?): Boolean {
+        return true
+    }
+
+    private fun searchApiData(searchQuery: String) {
+
+        mainViewModel.searchRecipes(recipesViewModel.applySearchQuery(searchQuery))
+        mainViewModel.searchRecipesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    val foodRecipe = response.data
+                    binding.pbLoading.visibility = View.INVISIBLE
+                    binding.rvRecipes.visibility = View.VISIBLE
+                    foodRecipe?.let { mAdapter.setData(it) }
+                }
+                is NetworkResult.Error -> {
+                    loadDataFromCache()
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    binding.rvRecipes.visibility = View.INVISIBLE
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+
 }

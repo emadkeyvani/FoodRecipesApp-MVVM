@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keyvani.foodrecipesapp_mvvm.databinding.ItemRowBinding
-import com.keyvani.foodrecipesapp_mvvm.models.FoodRecipe
-import com.keyvani.foodrecipesapp_mvvm.models.Result
+import com.keyvani.foodrecipesapp_mvvm.responses.FoodRecipe
+import com.keyvani.foodrecipesapp_mvvm.responses.Result
 import com.keyvani.foodrecipesapp_mvvm.utils.RecipesDiffUtils
 import javax.inject.Inject
 

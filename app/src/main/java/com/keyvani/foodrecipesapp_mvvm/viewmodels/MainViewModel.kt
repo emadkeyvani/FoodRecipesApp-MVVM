@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.keyvani.foodrecipesapp_mvvm.db.RecipesEntity
-import com.keyvani.foodrecipesapp_mvvm.models.FoodRecipe
+import com.keyvani.foodrecipesapp_mvvm.responses.FoodRecipe
 import com.keyvani.foodrecipesapp_mvvm.repository.Repository
 import com.keyvani.foodrecipesapp_mvvm.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Repository,
@@ -21,20 +22,29 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     /** ROOM DATABASE*/
-    val readRecipes : LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
 
-    private fun insertRecipes(recipesEntity: RecipesEntity)=
-        viewModelScope.launch (Dispatchers.IO){
+    private fun insertRecipes(recipesEntity: RecipesEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertRecipes(recipesEntity)
         }
+
 
     /** RETROFIT*/
     private val _recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
     val recipesResponse: LiveData<NetworkResult<FoodRecipe>>
         get() = _recipesResponse
 
+    private val _searchRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    val searchRecipesResponse: LiveData<NetworkResult<FoodRecipe>>
+        get() = _searchRecipesResponse
+
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
+    }
+
+    fun searchRecipes(searchQuery: Map<String, String>) = viewModelScope.launch {
+        searchRecipesSafeCall(searchQuery)
     }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
@@ -46,7 +56,7 @@ class MainViewModel @Inject constructor(
 
                 //Insert to database
                 val foodRecipe = _recipesResponse.value!!.data
-                if(foodRecipe!=null){
+                if (foodRecipe != null) {
                     offlineCashRecipes(foodRecipe)
                 }
 
@@ -59,6 +69,24 @@ class MainViewModel @Inject constructor(
         }
 
     }
+
+    private suspend fun searchRecipesSafeCall(searchQuery: Map<String, String>) {
+        _searchRecipesResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.searchRecipes(searchQuery)
+                _searchRecipesResponse.value = handleFoodRecipesResponse(response)
+
+            } catch (_: Exception) {
+                _searchRecipesResponse.value = NetworkResult.Error("Recipes not found")
+
+            }
+        } else {
+            _searchRecipesResponse.value = NetworkResult.Error("No Internet Connection.")
+        }
+
+    }
+
 
     //Insert to database
     private fun offlineCashRecipes(foodRecipe: FoodRecipe) {

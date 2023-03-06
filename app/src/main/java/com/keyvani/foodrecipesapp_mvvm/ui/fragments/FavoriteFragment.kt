@@ -1,4 +1,4 @@
-package com.keyvani.foodrecipesapp_mvvm.ui
+package com.keyvani.foodrecipesapp_mvvm.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

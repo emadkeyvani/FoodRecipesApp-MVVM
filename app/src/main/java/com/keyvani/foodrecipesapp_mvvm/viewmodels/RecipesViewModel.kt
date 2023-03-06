@@ -16,6 +16,7 @@ import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_DIET
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_INFO
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_INGREDIENTS
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_NUMBER
+import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_SEARCH
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.QUERY_TYPE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +56,17 @@ class RecipesViewModel @Inject constructor(
         queries[QUERY_INGREDIENTS] = "true"
         return queries
     }
-    private fun saveBackOnline(backOnline: Boolean) =
+    fun applySearchQuery(searchQuery: String): HashMap<String, String> {
+        val queries: HashMap<String, String> = HashMap()
+        queries[QUERY_SEARCH] = searchQuery
+        queries[QUERY_NUMBER] = DEFAULT_RECIPES_NUMBER
+        queries[QUERY_API_KEY] = API_KEY
+        queries[QUERY_INFO] = "true"
+        queries[QUERY_INGREDIENTS] = "true"
+        return queries
+    }
+
+     private fun saveBackOnline(backOnline: Boolean) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveBackOnline(backOnline)
         }

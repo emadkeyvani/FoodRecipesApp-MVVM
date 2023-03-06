@@ -7,12 +7,13 @@
 
         <variable
             name="result"
-            type="com.keyvani.foodrecipesapp_mvvm.models.Result" />
+            type="com.keyvani.foodrecipesapp_mvvm.responses.Result" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recipesRowLayout"
         android:layout_width="match_parent"
+        onRecipeClickListener = "@{result}"
         android:layout_height="wrap_content"
         android:layout_marginVertical="6dp">
 

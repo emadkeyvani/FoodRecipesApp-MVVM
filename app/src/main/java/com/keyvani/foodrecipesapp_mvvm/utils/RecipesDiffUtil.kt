@@ -1,7 +1,7 @@
 package com.keyvani.foodrecipesapp_mvvm.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.keyvani.foodrecipesapp_mvvm.models.Result
+import com.keyvani.foodrecipesapp_mvvm.responses.Result
 
 class RecipesDiffUtils(
     private val oldList: List<Result>,

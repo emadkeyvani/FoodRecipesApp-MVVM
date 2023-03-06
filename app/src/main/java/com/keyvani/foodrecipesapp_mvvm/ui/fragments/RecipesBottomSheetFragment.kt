@@ -1,4 +1,4 @@
-package com.keyvani.foodrecipesapp_mvvm.ui
+package com.keyvani.foodrecipesapp_mvvm.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.keyvani.foodrecipesapp_mvvm.R
 import com.keyvani.foodrecipesapp_mvvm.databinding.RecipesBottomSheetBinding
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.DEFAULT_DIET_TYPE
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.DEFAULT_MEAL_TYPE
