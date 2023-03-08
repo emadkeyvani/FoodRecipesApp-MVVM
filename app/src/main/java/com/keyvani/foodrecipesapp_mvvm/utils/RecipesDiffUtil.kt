@@ -3,9 +3,9 @@ package com.keyvani.foodrecipesapp_mvvm.utils
 import androidx.recyclerview.widget.DiffUtil
 import com.keyvani.foodrecipesapp_mvvm.responses.Result
 
-class RecipesDiffUtils(
-    private val oldList: List<Result>,
-    private val newList: List<Result>
+class RecipesDiffUtils<T>(
+    private val oldList: List<T>,
+    private val newList: List<T>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

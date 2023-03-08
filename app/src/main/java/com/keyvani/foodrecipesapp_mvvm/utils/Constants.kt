@@ -7,6 +7,7 @@ object Constants {
 
     const val BASE_URL = "https://api.spoonacular.com/"
     const val NETWORK_TIMEOUT = 60L
+    const val BASE_IMAGE_URL ="https://spoonacular.com/cdn/ingredients_100x100/"
 
     const val API_KEY: String = BuildConfig.API_KEY
     const val QUERY_NUMBER = "number"
@@ -31,6 +32,8 @@ object Constants {
     const val PREFERENCES_DIET_TYPE = "dietType"
     const val PREFERENCES_DIET_TYPE_ID = "dietTypeId"
     const val PREFERENCES_BACK_ONLINE = "backOnline"
+
+    const val RECIPE_RESULT_KEY = "recipeBundle"
 
 
 }

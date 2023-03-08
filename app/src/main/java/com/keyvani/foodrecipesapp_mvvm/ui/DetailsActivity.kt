@@ -13,8 +13,9 @@ import com.keyvani.foodrecipesapp_mvvm.databinding.ActivityDetailsBinding
 import com.keyvani.foodrecipesapp_mvvm.ui.fragments.IngredientsFragment
 import com.keyvani.foodrecipesapp_mvvm.ui.fragments.InstructionsFragment
 import com.keyvani.foodrecipesapp_mvvm.ui.fragments.OverViewFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private val args by navArgs<DetailsActivityArgs>()
