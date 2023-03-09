@@ -1,4 +1,4 @@
-package com.keyvani.foodrecipesapp_mvvm.db
+package com.keyvani.foodrecipesapp_mvvm.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
