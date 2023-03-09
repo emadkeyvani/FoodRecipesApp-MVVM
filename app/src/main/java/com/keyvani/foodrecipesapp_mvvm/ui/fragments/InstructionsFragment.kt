@@ -10,7 +10,9 @@ import com.keyvani.foodrecipesapp_mvvm.R
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentInstructionsBinding
 import com.keyvani.foodrecipesapp_mvvm.responses.Result
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InstructionsFragment : Fragment() {
     private var _binding: FragmentInstructionsBinding? = null
     private val binding get() = _binding!!

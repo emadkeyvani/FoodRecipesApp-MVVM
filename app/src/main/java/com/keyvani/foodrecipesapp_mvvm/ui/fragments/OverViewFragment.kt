@@ -14,7 +14,9 @@ import com.keyvani.foodrecipesapp_mvvm.R
 import com.keyvani.foodrecipesapp_mvvm.bindingadapters.RecipesRowBinding
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentOverViewBinding
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.RECIPE_RESULT_KEY
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OverViewFragment : Fragment() {
     private var _binding: FragmentOverViewBinding? = null
     private val binding get() = _binding!!

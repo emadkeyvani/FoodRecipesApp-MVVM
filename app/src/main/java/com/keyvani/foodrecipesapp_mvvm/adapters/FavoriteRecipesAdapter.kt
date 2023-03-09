@@ -13,8 +13,9 @@ import com.keyvani.foodrecipesapp_mvvm.db.entities.FavoritesEntity
 import com.keyvani.foodrecipesapp_mvvm.ui.fragments.FavoriteFragmentDirections
 import com.keyvani.foodrecipesapp_mvvm.utils.RecipesDiffUtils
 import com.keyvani.foodrecipesapp_mvvm.viewmodels.MainViewModel
+import javax.inject.Inject
 
-class FavoriteRecipesAdapter(
+class FavoriteRecipesAdapter @Inject constructor(
     private val requireActivity: FragmentActivity,
     private val mainViewModel: MainViewModel
 ) : RecyclerView.Adapter<FavoriteRecipesAdapter.MyViewHolder>(), ActionMode.Callback {
