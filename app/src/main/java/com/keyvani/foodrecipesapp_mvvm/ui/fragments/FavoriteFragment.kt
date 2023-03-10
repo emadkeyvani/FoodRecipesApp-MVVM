@@ -11,6 +11,7 @@ import com.keyvani.foodrecipesapp_mvvm.adapters.FavoriteRecipesAdapter
 import com.keyvani.foodrecipesapp_mvvm.databinding.FragmentFavoriteBinding
 import com.keyvani.foodrecipesapp_mvvm.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment() {
@@ -18,14 +19,13 @@ class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
-
-    private val mAdapter: FavoriteRecipesAdapter by lazy {FavoriteRecipesAdapter (
-        requireActivity(),
-        mainViewModel
-    )}
-
-    private val mainViewModel : MainViewModel by viewModels()
-
+    private val mainViewModel: MainViewModel by viewModels()
+    private val mAdapter: FavoriteRecipesAdapter by lazy {
+        FavoriteRecipesAdapter(
+            requireActivity(),
+            mainViewModel
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +33,11 @@ class FavoriteFragment : Fragment() {
     ): View {
         _binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
 
-        binding.apply {
-            lifecycleOwner = this@FavoriteFragment
-            mainViewModel = mainViewModel
-            mAdapter = mAdapter
-        }
+
+        binding.lifecycleOwner = this@FavoriteFragment
+        binding.mainViewModel = mainViewModel
+        binding.mAdapter = mAdapter
+
 
         return binding.root
     }
@@ -46,7 +46,6 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-
 
 
     }

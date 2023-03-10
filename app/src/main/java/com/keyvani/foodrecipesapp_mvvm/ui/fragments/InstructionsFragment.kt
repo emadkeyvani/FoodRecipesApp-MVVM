@@ -1,5 +1,6 @@
 package com.keyvani.foodrecipesapp_mvvm.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,7 @@ class InstructionsFragment : Fragment() {
         val websiteUrl: String? = myBundle.sourceUrl
         if (websiteUrl != null) {
             binding.instructionsWebView.loadUrl(websiteUrl)
+
         }
     }
 
