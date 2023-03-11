@@ -95,7 +95,7 @@ class FavoriteRecipesAdapter @Inject constructor(
 
     private fun saveItemStateOnScroll(currentRecipe: FavoritesEntity, holder: MyViewHolder){
         if (selectedRecipes.contains(currentRecipe)) {
-            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.teal_200)
+            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.teal_700)
         } else {
             changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.strokeColor)
         }
@@ -108,7 +108,7 @@ class FavoriteRecipesAdapter @Inject constructor(
             applyActionModeTitle()
         } else {
             selectedRecipes.add(currentRecipe)
-            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.teal_200)
+            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.teal_700)
             applyActionModeTitle()
         }
     }
