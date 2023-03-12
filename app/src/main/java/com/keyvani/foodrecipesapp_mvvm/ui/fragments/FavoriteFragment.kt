@@ -37,7 +37,7 @@ class FavoriteFragment : Fragment() {
         _binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
 
 
-        binding.lifecycleOwner = this@FavoriteFragment
+        binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
         binding.mAdapter = mAdapter
 
