@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.keyvani.foodrecipesapp_mvvm.repository.DataStoreRepository
+import com.keyvani.foodrecipesapp_mvvm.repository.MealAndDietType
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.API_KEY
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.DEFAULT_DIET_TYPE
 import com.keyvani.foodrecipesapp_mvvm.utils.Constants.DEFAULT_MEAL_TYPE
@@ -28,32 +29,54 @@ class RecipesViewModel @Inject constructor(
     application: Application, private val dataStoreRepository: DataStoreRepository
 ) : AndroidViewModel(application) {
 
-    private var mealType = DEFAULT_MEAL_TYPE
-    private var dietType = DEFAULT_DIET_TYPE
+
+    private lateinit var mealAndDiet: MealAndDietType
     var networkStatus = false
     var backOnline = false
     val readMealAndDietType = dataStoreRepository.readMealAndDietType
     val readBackOnline = dataStoreRepository.readBackOnline.asLiveData()
 
-    fun saveMealAndDietType(mealType: String, mealTypeId: Int, dietType: String, dietTypeId: Int) =
+    fun saveMealAndDietType() =
         viewModelScope.launch(Dispatchers.IO) {
-        dataStoreRepository.saveMealAndDietType(mealType, mealTypeId, dietType, dietTypeId)
+            if (this@RecipesViewModel::mealAndDiet.isInitialized) {
+                dataStoreRepository.saveMealAndDietType(
+                    mealAndDiet.selectedMealType,
+                    mealAndDiet.selectedMealTypeId,
+                    mealAndDiet.selectedDietType,
+                    mealAndDiet.selectedDietTypeId
+                )
+            }
+        }
+
+    fun saveMealAndDietTypeTemp(
+        mealType: String,
+        mealTypeId: Int,
+        dietType: String,
+        dietTypeId: Int
+    ) {
+        mealAndDiet = MealAndDietType(
+            mealType,
+            mealTypeId,
+            dietType,
+            dietTypeId
+        )
     }
     fun applyQueries(): HashMap<String, String> {
         val queries: HashMap<String, String> = HashMap()
 
-        viewModelScope.launch {
-            readMealAndDietType.collect {value->
-                mealType = value.selectedMealType
-                dietType = value.selectedDietType
-            }
-        }
         queries[QUERY_NUMBER] = DEFAULT_RECIPES_NUMBER
         queries[QUERY_API_KEY] = API_KEY
-        queries[QUERY_TYPE] = mealType
-        queries[QUERY_DIET] = dietType
         queries[QUERY_INFO] = "true"
         queries[QUERY_INGREDIENTS] = "true"
+
+        if (this@RecipesViewModel::mealAndDiet.isInitialized) {
+            queries[QUERY_TYPE] = mealAndDiet.selectedMealType
+            queries[QUERY_DIET] = mealAndDiet.selectedDietType
+        } else {
+            queries[QUERY_TYPE] = DEFAULT_MEAL_TYPE
+            queries[QUERY_DIET] = DEFAULT_DIET_TYPE
+        }
+
         return queries
     }
     fun applySearchQuery(searchQuery: String): HashMap<String, String> {

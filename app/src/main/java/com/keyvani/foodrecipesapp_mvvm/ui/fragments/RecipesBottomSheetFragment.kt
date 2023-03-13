@@ -62,7 +62,7 @@ class RecipesBottomSheetFragment : BottomSheetDialogFragment() {
                 dietTypeChipId = selectedChipId.first()
             }
             applyBtn.setOnClickListener {
-                recipesViewModel.saveMealAndDietType(
+                recipesViewModel.saveMealAndDietTypeTemp(
                     mealTypeChip,
                     mealTypeChipId,
                     dietTypeChip,
@@ -89,8 +89,8 @@ class RecipesBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

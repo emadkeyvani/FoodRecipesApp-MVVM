@@ -63,6 +63,8 @@ class DetailsActivity : AppCompatActivity() {
             fragments,
             this
         )
+
+        //Locks sliding fragments
         binding.viewPager.isUserInputEnabled = false
         binding.viewPager.adapter = pagerAdapter
 

@@ -83,8 +83,8 @@ class FavoriteFragment : Fragment() {
             .show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         mAdapter.clearContextualActionMode()
         _binding = null
     }

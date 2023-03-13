@@ -121,6 +121,7 @@ class RecipesFragment : Fragment() , SearchView.OnQueryTextListener{
                     binding.pbLoading.visibility = View.INVISIBLE
                     binding.rvRecipes.visibility = View.VISIBLE
                     response.data?.let { mAdapter.setData(it) }
+                    recipesViewModel.saveMealAndDietType()
                 }
                 is NetworkResult.Error -> {
                     loadDataFromCache()
@@ -191,8 +192,8 @@ class RecipesFragment : Fragment() , SearchView.OnQueryTextListener{
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
